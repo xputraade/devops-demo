@@ -1,0 +1,15 @@
+{
+  "name": "devops-demo",
+  "version": "1.0.0",
+  "description": "DevOps demo app with Node.js, PostgreSQL, Docker, Kubernetes, Helm, GitHub Actions",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "pg": "^8.12.0"
+  }
+}

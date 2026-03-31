@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "devops-demo.appName" . }}
+spec:
+  replicas: {{ .Values.app.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.name }}
+    spec:
+      containers:
+        - name: app
+          image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"
+          imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.app.service.targetPort }}
+          env:
+            - name: PORT
+              value: "{{ .Values.app.env.PORT }}"
+            - name: DB_HOST
+              value: "{{ .Values.app.env.DB_HOST }}"
+            - name: DB_PORT
+              value: "{{ .Values.app.env.DB_PORT }}"
+            - name: DB_USER
+              value: "{{ .Values.app.env.DB_USER }}"
+            - name: DB_PASSWORD
+              value: "{{ .Values.app.env.DB_PASSWORD }}"
+            - name: DB_NAME
+              value: "{{ .Values.app.env.DB_NAME }}"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.app.service.targetPort }}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.app.service.targetPort }}
+            initialDelaySeconds: 10
+            periodSeconds: 10
