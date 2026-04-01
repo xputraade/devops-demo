@@ -12,7 +12,7 @@ jobs:
       packages: write
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
@@ -41,3 +41,21 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    runs-on: self-hosted
+    needs: build-and-push
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check cluster
+        run: kubectl get nodes
+
+      - name: Deploy with Helm
+        run: |
+          helm upgrade --install devops-demo ./helm/devops-demo \
+            --set app.image.repository=ghcr.io/${{ github.repository }} \
+            --set app.image.tag=latest \
+            --set app.image.pullPolicy=Always
