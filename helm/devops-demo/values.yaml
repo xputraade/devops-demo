@@ -2,9 +2,9 @@ app:
   name: devops-demo
   replicaCount: 1
   image:
-    repository: devops-demo
+    repository: ghcr.io/xputraade/devops-demo
     tag: latest
-    pullPolicy: Never
+    pullPolicy: IfNotPresent
   service:
     type: ClusterIP
     port: 80
