@@ -10,3 +10,5 @@ coverage
 
 # Kubernetes / temp
 *.tmp
+
+actions-runner/

@@ -12,6 +12,8 @@ spec:
       labels:
         app: {{ .Values.app.name }}
     spec:
+      imagePullSecrets:
+        - name: ghcr-secret
       containers:
         - name: app
           image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"

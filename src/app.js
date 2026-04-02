@@ -26,13 +26,14 @@ app.post("/init", async (req, res) => {
     await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
-        name TEXT NOT NULL
+        name TEXT NOT NULL UNIQUE
       )
     `);
 
     await pool.query(`
       INSERT INTO users (name)
       VALUES ('Putra'), ('Adit')
+      ON CONFLICT (name) DO NOTHING
     `);
 
     res.json({ message: "database initialized" });
