@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logstash-jdbc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logstash-jdbc
+  template:
+    metadata:
+      labels:
+        app: logstash-jdbc
+    spec:
+      containers:
+        - name: logstash-jdbc
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: ELASTIC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.elasticsearch.passwordSecretName }}
+                  key: {{ .Values.elasticsearch.passwordSecretKey }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          volumeMounts:
+            - name: config
+              mountPath: /usr/share/logstash/pipeline/logstash.conf
+              subPath: logstash.conf
+      volumes:
+        - name: config
+          configMap:
+            name: logstash-jdbc-config

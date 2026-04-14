@@ -4,11 +4,12 @@ app:
   image:
     repository: ghcr.io/xputraade/devops-demo
     tag: latest
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   service:
-    type: ClusterIP
+    type: NodePort
     port: 80
     targetPort: 3000
+    nodePort: 30080
   env:
     PORT: "3000"
     DB_HOST: postgres

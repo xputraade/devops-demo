@@ -1,0 +1,25 @@
+image:
+  repository: logstash-jdbc
+  tag: latest
+  pullPolicy: Never
+
+postgres:
+  host: postgres
+  port: 5432
+  database: appdb
+  user: postgres
+  password: postgres
+
+elasticsearch:
+  host: https://elasticsearch-master:9200
+  user: elastic
+  passwordSecretName: elasticsearch-master-credentials
+  passwordSecretKey: password
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: 500m
+    memory: 1Gi

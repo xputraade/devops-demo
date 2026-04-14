@@ -1,0 +1,6 @@
+apiVersion: v2
+name: logstash-jdbc
+description: Custom Logstash JDBC sync from PostgreSQL to Elasticsearch
+type: application
+version: 0.1.0
+appVersion: "9.3.3"
